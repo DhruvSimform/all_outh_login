@@ -39,3 +39,11 @@ coverage.xml
 
 # FastAPI specific
 .fastapi
+
+# local DB-files
+*.sqlite3
+*.sqlite
+*.db-journal
+*.db-shm
+*.db-wal
+*.db
