@@ -1,7 +1,8 @@
-from sqlalchemy import Column, String, Boolean, DateTime, func
+import uuid
+
+from sqlalchemy import Boolean, Column, DateTime, String, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-import uuid
 
 from src.core.database import Base
 
@@ -18,8 +19,9 @@ class User(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    oauth_accounts = relationship("OAuthAccount", back_populates="user", cascade="all, delete-orphan")
+    oauth_accounts = relationship(
+        "OAuthAccount", back_populates="user", cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"<User id={self.id} email={self.email}>"
-

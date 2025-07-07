@@ -1,12 +1,11 @@
 import uvicorn
+from decouple import config
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
-from decouple import config
 
 from src.api.v1.auth_routes import router as auth_router
 from src.api.v1.token_routes import router as token_router
 from src.core.database import Base, engine
-
 
 app = FastAPI()
 
@@ -24,7 +23,8 @@ async def on_startup() -> None:
 
 
 def main():
-    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)  # nosec B104
+
 
 if __name__ == "__main__":
     main()

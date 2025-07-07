@@ -1,11 +1,9 @@
 import jwt
+from fastapi import APIRouter
 from jwt import PyJWTError
 
-from fastapi import APIRouter
-
-from src.core.security import JWT_SECRET_KEY, JWT_ALGORITHM
+from src.core.security import JWT_ALGORITHM, JWT_SECRET_KEY
 from src.schemas.token_schema import TokenVerifyRequest, TokenVerifyResponse
-
 
 router = APIRouter()
 

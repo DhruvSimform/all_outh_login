@@ -1,6 +1,7 @@
-import jwt
 from datetime import datetime, timedelta, timezone
 from typing import Union
+
+import jwt
 from decouple import config
 
 JWT_SECRET_KEY = config("JWT_SECRET_KEY")
@@ -9,8 +10,7 @@ JWT_EXPIRATION_DELTA = int(config("JWT_EXPIRATION_MINUTES", default=60))
 
 
 def create_access_token(
-    data: dict,
-    expires_delta: Union[timedelta, None] = None
+    data: dict, expires_delta: Union[timedelta, None] = None
 ) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + (

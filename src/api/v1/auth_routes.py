@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Request, HTTPException
 from decouple import config
+from fastapi import APIRouter, HTTPException, Request
+
 from src.oauth.google import google
-from src.services.user_service import handle_oauth_user
 from src.schemas.user_schema import TokenResponse
+from src.services.user_service import handle_oauth_user
 
 router = APIRouter()
 
@@ -30,7 +31,4 @@ async def google_callback(request: Request):
     # Store or fetch user from DB (based on oauth_accounts table now)
     user, jwt_token = await handle_oauth_user(user_info, provider="google")
 
-    return TokenResponse(
-        access_token=jwt_token,
-        user=user  # Pydantic UserOut model
-    )
+    return TokenResponse(access_token=jwt_token, user=user)  # Pydantic UserOut model

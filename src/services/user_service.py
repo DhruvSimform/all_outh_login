@@ -1,9 +1,10 @@
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+
 from src.core.database import async_session
-from src.models.user_model import User
-from src.models.oauth_model import OAuthAccount
 from src.core.security import create_access_token
+from src.models.oauth_model import OAuthAccount
+from src.models.user_model import User
 from src.schemas.user_schema import UserOut
 
 
@@ -20,7 +21,9 @@ async def handle_oauth_user(user_info: dict, provider: str):
         # Check if the OAuth account already exists
         result = await session.execute(
             select(OAuthAccount)
-            .options(selectinload(OAuthAccount.user))  # eager load the user relationship
+            .options(
+                selectinload(OAuthAccount.user)
+            )  # eager load the user relationship
             .where(
                 OAuthAccount.provider == provider,
                 OAuthAccount.provider_user_id == provider_user_id,
@@ -33,9 +36,7 @@ async def handle_oauth_user(user_info: dict, provider: str):
 
         else:
             # Check if a user exists with same email (manual signup or other provider)
-            result = await session.execute(
-                select(User).where(User.email == email)
-            )
+            result = await session.execute(select(User).where(User.email == email))
             user = result.scalars().first()
 
             if not user:
