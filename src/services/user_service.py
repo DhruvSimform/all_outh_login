@@ -1,3 +1,4 @@
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
@@ -15,7 +16,10 @@ async def handle_oauth_user(user_info: dict, provider: str):
     picture = user_info.get("picture")
 
     if not email:
-        raise ValueError("Email is required from OAuth provider")
+        raise HTTPException(
+            detail="Email is required from OAuth provider",
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
 
     async with async_session() as session:
         # Check if the OAuth account already exists

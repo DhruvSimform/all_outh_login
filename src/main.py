@@ -6,6 +6,10 @@ from starlette.middleware.sessions import SessionMiddleware
 from src.api.v1.auth_routes import router as auth_router
 from src.api.v1.token_routes import router as token_router
 from src.core.database import Base, engine
+from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 app = FastAPI()
 
