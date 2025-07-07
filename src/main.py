@@ -8,12 +8,13 @@ app = FastAPI()
 
 
 @app.on_event("startup")
-def on_startup() -> None:
-    Base.metadata.create_all(bind=engine)
+async def on_startup() -> None:
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
 def main():
-    uvicorn.run(app, port=8000)
+    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
 
 if __name__ == "__main__":
     main()
