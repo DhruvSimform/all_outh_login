@@ -6,8 +6,9 @@ from sqlalchemy import pool
 from alembic import context
 
 # 2. Load database configurations
-from src.core.database import DATABASE_URL
-from src.models.user_model import Base, User
+from src.models.user_model import Base
+from src.models.oauth_model import Base
+from decouple import config as env_config
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -19,7 +20,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # 4. Override DB URL from config
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
+config.set_main_option("sqlalchemy.url", env_config('SYNC_DATABASE_URL'))
 
 # add your model's MetaData object here
 # for 'autogenerate' support

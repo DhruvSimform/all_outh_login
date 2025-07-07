@@ -1,10 +1,20 @@
 import uvicorn
 from fastapi import FastAPI
+from starlette.middleware.sessions import SessionMiddleware
+from decouple import config
 
+from src.api.v1.auth_routes import router as auth_router
+from src.api.v1.token_routes import router as token_router
 from src.core.database import Base, engine
 
 
 app = FastAPI()
+
+# Required for OAuth
+app.add_middleware(SessionMiddleware, secret_key=config("SESSION_SECRET_KEY"))
+
+app.include_router(auth_router, prefix="/api/v1/auth")
+app.include_router(token_router, prefix="/api/v1/token")
 
 
 @app.on_event("startup")
