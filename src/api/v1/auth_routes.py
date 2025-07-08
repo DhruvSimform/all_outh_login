@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, Request
 
 from src.oauth.google import google
 from src.schemas.user_schema import TokenResponse
-from src.services.user_service import handle_google_oauth_user
+from src.services.user_service import handle_oauth_user
 from src.utils.logger import get_logger
 
 logger = get_logger("auth_routes")
@@ -34,7 +34,7 @@ async def google_callback(request: Request):
         raise HTTPException(status_code=500, detail=f"User info parsing failed: {e}")
 
     # Store or fetch user from DB (based on oauth_accounts table now)
-    user, jwt_token = await handle_google_oauth_user(user_info, provider="google")
+    user, jwt_token = await handle_oauth_user(user_info, provider="google")
 
     logger.info(f"User {user.email} authenticated via Google")
     return TokenResponse(access_token=jwt_token, user=user)  # Pydantic UserOut model
