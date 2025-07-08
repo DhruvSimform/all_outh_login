@@ -9,7 +9,7 @@ from src.models.user_model import User
 from src.schemas.user_schema import UserOut
 
 
-async def handle_google_oauth_user(user_info: dict, provider: str):
+async def handle_oauth_user(user_info: dict, provider: str):
     provider_user_id = user_info.get("sub")
     email = user_info.get("email")
     name = user_info.get("name")
