@@ -6,7 +6,7 @@ from pydantic import BaseModel, EmailStr
 
 class UserOut(BaseModel):
     id: UUID
-    email: EmailStr
+    email: EmailStr | None = None  # Email can be None for OAuth users
     full_name: Optional[str] = None
     profile_picture: Optional[str] = None
     is_active: bool

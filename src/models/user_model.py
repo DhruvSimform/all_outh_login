@@ -11,7 +11,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    email = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, nullable=True)
     full_name = Column(String, nullable=True)
     profile_picture = Column(String, nullable=True)
     password_hash = Column(String, nullable=True)  # null for OAuth users
