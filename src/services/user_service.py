@@ -15,7 +15,7 @@ async def handle_oauth_user(user_info: dict, provider: str):
     name = user_info.get("name")
     picture = user_info.get("picture")
 
-    if not email:
+    if not email and provider != "x":
         raise HTTPException(
             detail="Email is required from OAuth provider",
             status_code=status.HTTP_400_BAD_REQUEST,
